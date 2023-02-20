@@ -79,3 +79,7 @@ func (s *UserService) CheckUser(req *userdemo.CheckUserRequest) (int64, error) {
 	}
 	return int64(u.ID), nil
 }
+
+func (s *UserService) UpdateUserFollows(userid int64, toUserId int64, count int64) error {
+	return db.UpdateUserFollows(userid, toUserId, count)
+}

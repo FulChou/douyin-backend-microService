@@ -3,12 +3,13 @@
 package main
 
 import (
+	"douyin_backend_microService/api/biz/rpc"
 	"github.com/cloudwego/hertz/pkg/app/server"
 )
 
 func main() {
 	h := server.Default()
-
+	rpc.Init()
 	register(h)
 	h.Spin()
 }

@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"douyin_backend_microService/pkg/errno"
-	"douyin_backend_microService/user/kitex_gen/userdemo"
+	userdemo "douyin_backend_microService/user/kitex_gen/userdemo"
 	"douyin_backend_microService/user/pack"
 	"douyin_backend_microService/user/service"
 )
@@ -73,7 +73,21 @@ func (s *UserServiceImpl) CheckUser(ctx context.Context, req *userdemo.CheckUser
 		resp.BaseResp = pack.BuildResponeseMessage(err)
 		return resp, nil
 	}
-	resp.BaseResp = pack.BuildResponeseMessage(err)
+	resp.BaseResp = pack.BuildResponeseMessage(errno.Success)
 	resp.UserId = userId
+	return resp, nil
+}
+
+// UpdateUserFollow implements the UserServiceImpl interface.
+func (s *UserServiceImpl) UpdateUserFollow(ctx context.Context, req *userdemo.UpdateUserFollowRequest) (resp *userdemo.UpdateUserFollowResponse, err error) {
+	// TODO: Your code he
+	resp = new(userdemo.UpdateUserFollowResponse)
+	userService := service.NewUserService(ctx)
+	err = userService.UpdateUserFollows(req.UserId, req.UserId, req.Count)
+	if err != nil {
+		resp.BaseResp = pack.BuildResponeseMessage(err)
+		return resp, err
+	}
+	resp.BaseResp = pack.BuildResponeseMessage(errno.Success)
 	return resp, nil
 }

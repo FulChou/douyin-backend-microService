@@ -8,10 +8,13 @@ import (
 
 type User struct {
 	gorm.Model
-	UserName      string `json:"user_name"`
-	Password      string `json:"password"`
-	FollowCount   uint64 `json:"follow_count" `
-	FollowerCount uint64 `json:"follower_count"`
+	UserName         string `json:"user_name"`
+	Password         string `json:"password"`
+	Avatar           string `json:"avatar_url"`
+	background_image string `json:"backgroundImage_url"`
+	signature        string `json:"signature"`
+	FollowCount      uint64 `json:"follow_count" `
+	FollowerCount    uint64 `json:"follower_count"`
 }
 
 func (u *User) TableName() string {
@@ -65,7 +68,7 @@ func CheckUser(account, password string) ([]*User, error) {
 	return res, nil
 }
 
-func UpdateUserFollows(userId int64, toUserId int64, count int) error {
+func UpdateUserFollows(userId int64, toUserId int64, count int64) error {
 	// update My_follow_count
 	user, err := QueryUserByID(userId)
 	if err != nil {
@@ -75,7 +78,7 @@ func UpdateUserFollows(userId int64, toUserId int64, count int) error {
 		return errors.New("follow_count already zero")
 	}
 
-	if err := DB.Model(&User{}).Where("id = ?", userId).Update("follow_count", int(user.FollowCount)+count).Error; err != nil {
+	if err := DB.Model(&User{}).Where("id = ?", userId).Update("follow_count", int(user.FollowCount)+int(count)).Error; err != nil {
 		return errors.New("update user follow_count failed")
 	}
 
@@ -87,7 +90,7 @@ func UpdateUserFollows(userId int64, toUserId int64, count int) error {
 	if count == -1 && user.FollowerCount == 0 {
 		return errors.New("follower_count already zero")
 	}
-	if err := DB.Model(&User{}).Where("id = ?", toUserId).Update("follower_count", int(toUser.FollowerCount)+count).Error; err != nil {
+	if err := DB.Model(&User{}).Where("id = ?", toUserId).Update("follower_count", int(toUser.FollowerCount)+int(count)).Error; err != nil {
 		return errors.New("update user follower_count failed")
 	}
 	return nil

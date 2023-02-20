@@ -3,7 +3,7 @@
 package userservice
 
 import (
-	"douyin_backend_microService/user/kitex_gen/userdemo"
+	userdemo "douyin_backend_microService/user/kitex_gen/userdemo"
 	server "github.com/cloudwego/kitex/server"
 )
 

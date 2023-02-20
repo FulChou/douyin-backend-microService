@@ -4,7 +4,7 @@ package userservice
 
 import (
 	"context"
-	"douyin_backend_microService/user/kitex_gen/userdemo"
+	userdemo "douyin_backend_microService/user/kitex_gen/userdemo"
 	"fmt"
 	client "github.com/cloudwego/kitex/client"
 	kitex "github.com/cloudwego/kitex/pkg/serviceinfo"
@@ -22,10 +22,11 @@ func NewServiceInfo() *kitex.ServiceInfo {
 	serviceName := "UserService"
 	handlerType := (*userdemo.UserService)(nil)
 	methods := map[string]kitex.MethodInfo{
-		"GetUser":    kitex.NewMethodInfo(getUserHandler, newGetUserArgs, newGetUserResult, false),
-		"MGetUser":   kitex.NewMethodInfo(mGetUserHandler, newMGetUserArgs, newMGetUserResult, false),
-		"CreateUser": kitex.NewMethodInfo(createUserHandler, newCreateUserArgs, newCreateUserResult, false),
-		"CheckUser":  kitex.NewMethodInfo(checkUserHandler, newCheckUserArgs, newCheckUserResult, false),
+		"GetUser":          kitex.NewMethodInfo(getUserHandler, newGetUserArgs, newGetUserResult, false),
+		"MGetUser":         kitex.NewMethodInfo(mGetUserHandler, newMGetUserArgs, newMGetUserResult, false),
+		"CreateUser":       kitex.NewMethodInfo(createUserHandler, newCreateUserArgs, newCreateUserResult, false),
+		"CheckUser":        kitex.NewMethodInfo(checkUserHandler, newCheckUserArgs, newCheckUserResult, false),
+		"UpdateUserFollow": kitex.NewMethodInfo(updateUserFollowHandler, newUpdateUserFollowArgs, newUpdateUserFollowResult, false),
 	}
 	extra := map[string]interface{}{
 		"PackageName": "douyin",
@@ -621,6 +622,151 @@ func (p *CheckUserResult) IsSetSuccess() bool {
 	return p.Success != nil
 }
 
+func updateUserFollowHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(userdemo.UpdateUserFollowRequest)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(userdemo.UserService).UpdateUserFollow(ctx, req)
+		if err != nil {
+			return err
+		}
+		if err := st.SendMsg(resp); err != nil {
+			return err
+		}
+	case *UpdateUserFollowArgs:
+		success, err := handler.(userdemo.UserService).UpdateUserFollow(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*UpdateUserFollowResult)
+		realResult.Success = success
+	}
+	return nil
+}
+func newUpdateUserFollowArgs() interface{} {
+	return &UpdateUserFollowArgs{}
+}
+
+func newUpdateUserFollowResult() interface{} {
+	return &UpdateUserFollowResult{}
+}
+
+type UpdateUserFollowArgs struct {
+	Req *userdemo.UpdateUserFollowRequest
+}
+
+func (p *UpdateUserFollowArgs) FastRead(buf []byte, _type int8, number int32) (n int, err error) {
+	if !p.IsSetReq() {
+		p.Req = new(userdemo.UpdateUserFollowRequest)
+	}
+	return p.Req.FastRead(buf, _type, number)
+}
+
+func (p *UpdateUserFollowArgs) FastWrite(buf []byte) (n int) {
+	if !p.IsSetReq() {
+		return 0
+	}
+	return p.Req.FastWrite(buf)
+}
+
+func (p *UpdateUserFollowArgs) Size() (n int) {
+	if !p.IsSetReq() {
+		return 0
+	}
+	return p.Req.Size()
+}
+
+func (p *UpdateUserFollowArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, fmt.Errorf("No req in UpdateUserFollowArgs")
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *UpdateUserFollowArgs) Unmarshal(in []byte) error {
+	msg := new(userdemo.UpdateUserFollowRequest)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var UpdateUserFollowArgs_Req_DEFAULT *userdemo.UpdateUserFollowRequest
+
+func (p *UpdateUserFollowArgs) GetReq() *userdemo.UpdateUserFollowRequest {
+	if !p.IsSetReq() {
+		return UpdateUserFollowArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *UpdateUserFollowArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+type UpdateUserFollowResult struct {
+	Success *userdemo.UpdateUserFollowResponse
+}
+
+var UpdateUserFollowResult_Success_DEFAULT *userdemo.UpdateUserFollowResponse
+
+func (p *UpdateUserFollowResult) FastRead(buf []byte, _type int8, number int32) (n int, err error) {
+	if !p.IsSetSuccess() {
+		p.Success = new(userdemo.UpdateUserFollowResponse)
+	}
+	return p.Success.FastRead(buf, _type, number)
+}
+
+func (p *UpdateUserFollowResult) FastWrite(buf []byte) (n int) {
+	if !p.IsSetSuccess() {
+		return 0
+	}
+	return p.Success.FastWrite(buf)
+}
+
+func (p *UpdateUserFollowResult) Size() (n int) {
+	if !p.IsSetSuccess() {
+		return 0
+	}
+	return p.Success.Size()
+}
+
+func (p *UpdateUserFollowResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, fmt.Errorf("No req in UpdateUserFollowResult")
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *UpdateUserFollowResult) Unmarshal(in []byte) error {
+	msg := new(userdemo.UpdateUserFollowResponse)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *UpdateUserFollowResult) GetSuccess() *userdemo.UpdateUserFollowResponse {
+	if !p.IsSetSuccess() {
+		return UpdateUserFollowResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *UpdateUserFollowResult) SetSuccess(x interface{}) {
+	p.Success = x.(*userdemo.UpdateUserFollowResponse)
+}
+
+func (p *UpdateUserFollowResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
 type kClient struct {
 	c client.Client
 }
@@ -666,6 +812,16 @@ func (p *kClient) CheckUser(ctx context.Context, Req *userdemo.CheckUserRequest)
 	_args.Req = Req
 	var _result CheckUserResult
 	if err = p.c.Call(ctx, "CheckUser", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) UpdateUserFollow(ctx context.Context, Req *userdemo.UpdateUserFollowRequest) (r *userdemo.UpdateUserFollowResponse, err error) {
+	var _args UpdateUserFollowArgs
+	_args.Req = Req
+	var _result UpdateUserFollowResult
+	if err = p.c.Call(ctx, "UpdateUserFollow", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

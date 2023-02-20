@@ -4,7 +4,7 @@ package userservice
 
 import (
 	"context"
-	"douyin_backend_microService/user/kitex_gen/userdemo"
+	userdemo "douyin_backend_microService/user/kitex_gen/userdemo"
 	client "github.com/cloudwego/kitex/client"
 	callopt "github.com/cloudwego/kitex/client/callopt"
 )
@@ -15,6 +15,7 @@ type Client interface {
 	MGetUser(ctx context.Context, Req *userdemo.MGetUserRequest, callOptions ...callopt.Option) (r *userdemo.MGetUserResponse, err error)
 	CreateUser(ctx context.Context, Req *userdemo.CreateUserRequest, callOptions ...callopt.Option) (r *userdemo.CreateUserResponse, err error)
 	CheckUser(ctx context.Context, Req *userdemo.CheckUserRequest, callOptions ...callopt.Option) (r *userdemo.CheckUserResponse, err error)
+	UpdateUserFollow(ctx context.Context, Req *userdemo.UpdateUserFollowRequest, callOptions ...callopt.Option) (r *userdemo.UpdateUserFollowResponse, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -64,4 +65,9 @@ func (p *kUserServiceClient) CreateUser(ctx context.Context, Req *userdemo.Creat
 func (p *kUserServiceClient) CheckUser(ctx context.Context, Req *userdemo.CheckUserRequest, callOptions ...callopt.Option) (r *userdemo.CheckUserResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.CheckUser(ctx, Req)
+}
+
+func (p *kUserServiceClient) UpdateUserFollow(ctx context.Context, Req *userdemo.UpdateUserFollowRequest, callOptions ...callopt.Option) (r *userdemo.UpdateUserFollowResponse, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.UpdateUserFollow(ctx, Req)
 }

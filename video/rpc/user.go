@@ -16,7 +16,7 @@ import (
 
 var userClient userservice.Client
 
-func initUser() {
+func InitUser() {
 	r, err := etcd.NewEtcdResolver([]string{constants.EtcdAddress})
 	if err != nil {
 		panic(err)
