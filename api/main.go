@@ -3,18 +3,11 @@
 package main
 
 import (
-	"douyin_backend_microService/api/biz/mw"
-	"douyin_backend_microService/api/biz/rpc"
 	"github.com/cloudwego/hertz/pkg/app/server"
 )
 
-func init() {
-	rpc.Init()
-	mw.InitJWT()
-}
-
 func main() {
-	h := server.New(server.WithHostPorts(":8080"))
+	h := server.Default()
 
 	register(h)
 	h.Spin()

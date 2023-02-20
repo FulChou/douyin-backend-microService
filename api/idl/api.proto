@@ -14,6 +14,10 @@ message douyin_user_register_response {
   string token = 4; // 用户鉴权token
 }
 
+
+
+
+
 message douyin_user_login_request {
   string username = 1; // 登录用户名
   string password = 2; // 登录密码
@@ -101,5 +105,19 @@ service ApiService{
     rpc LoginUser(douyin_user_login_request) returns(douyin_user_login_response){
       option(api.post) = "/douyin/user/login";
     }
+
+    rpc Feed(douyin_feed_request) returns(douyin_feed_response){
+      option(api.get) = "/douyin/feed";
+    }
+
+    rpc PublishAction(douyin_publish_action_request) returns(douyin_publish_action_response){
+      option(api.post) = "/douyin/publish/action";
+    }
+
+    rpc PulishVideoList(douyin_publish_list_request) returns(douyin_publish_list_response){
+      option(api.get) = "/douyin/publish/action";
+    }
+
+
 
 }

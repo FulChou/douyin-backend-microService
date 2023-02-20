@@ -30,3 +30,23 @@ func _registeruserMw() []app.HandlerFunc {
 	// your code...
 	return nil
 }
+
+func _feedMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _publishMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _publish_ctionMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _pulishvideolistMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}

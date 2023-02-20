@@ -2,6 +2,9 @@ syntax = "proto3";
 package douyin.core;
 option go_package="./userdemo";
 
+
+
+
 message douyin_user_register_request {
   string username = 1; // 注册用户名，最长32个字符
   string password = 2; // 密码，最长32个字符
@@ -38,7 +41,6 @@ message douyin_user_response {
 
 
 message User {
-
   int64 id = 1; // 用户id
   string name = 2; // 用户名称
   int64 follow_count = 3; // 关注总数
@@ -46,6 +48,3 @@ message User {
   bool is_follow = 5; // true-已关注，false-未关注
 }
 
-service Userservice{
- rpc
-}

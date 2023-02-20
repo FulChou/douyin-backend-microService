@@ -16,7 +16,10 @@ import (
 	"time"
 )
 
-var JwtMiddleware *jwt.HertzJWTMiddleware
+var (
+	JwtMiddleware *jwt.HertzJWTMiddleware
+	IdentityKey   = "identity"
+)
 
 func InitJWT() {
 	JwtMiddleware, _ = jwt.New(&jwt.HertzJWTMiddleware{

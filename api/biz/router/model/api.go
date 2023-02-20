@@ -3,7 +3,7 @@
 package Model
 
 import (
-	"douyin_backend_microService/api/biz/handler/model"
+	model "api/biz/handler/model"
 	"github.com/cloudwego/hertz/pkg/app/server"
 )
 
@@ -19,6 +19,12 @@ func Register(r *server.Hertz) {
 	root := r.Group("/", rootMw()...)
 	{
 		_douyin := root.Group("/douyin", _douyinMw()...)
+		_douyin.GET("/feed", append(_feedMw(), model.Feed)...)
+		{
+			_publish := _douyin.Group("/publish", _publishMw()...)
+			_publish.POST("/action", append(_publish_ctionMw(), model.PublishAction)...)
+			_publish.GET("/action", append(_pulishvideolistMw(), model.PulishVideoList)...)
+		}
 		{
 			_user := _douyin.Group("/user", _userMw()...)
 			_user.POST("/login", append(_loginuserMw(), model.LoginUser)...)
