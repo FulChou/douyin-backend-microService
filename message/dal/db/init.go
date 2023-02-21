@@ -17,12 +17,8 @@ func Init() {
 			SkipDefaultTransaction: true,
 		},
 	)
-	DB.AutoMigrate(Follow{})
+	DB.AutoMigrate(Message{})
 	if err != nil {
 		panic(err)
 	}
-
-	//if err = DB.Use(gormopentracing.New()); err != nil {
-	//	panic(err)
-	//}
 }

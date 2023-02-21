@@ -39,13 +39,15 @@ const (
 	VideoServiceName            = "videodemo"
 	UserServiceName             = "userdemo"
 	RelationServiceName         = "relationdemo"
+	MessageServiceName          = "messagedemo"
 	MySQLDefaultDSN             = "gorm:gorm@tcp(localhost:9910)/gorm?charset=utf8&parseTime=True&loc=Local"
 	EtcdAddress                 = "127.0.0.1:2379"
 	CPURateLimit        float64 = 80.0
 	DefaultLimit                = 10
-	ExportEndpoint              = ":4317"
+	ExportEndpoint              = "localhost:4317"
 	TCP                         = "tcp"
 	UserServiceAddr             = ":2000"
 	VideoServiceAddr            = ":10000"
 	RelationServiceAddr         = ":3000"
+	MessageServiceAddr          = ":4000"
 )
