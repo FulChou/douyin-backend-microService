@@ -3,12 +3,12 @@
 package messageservice
 
 import (
-	message "douyin_backend_microService/message/kitex_gen/message"
+	messagedemo "douyin_backend_microService/message/kitex_gen/messagedemo"
 	server "github.com/cloudwego/kitex/server"
 )
 
 // NewInvoker creates a server.Invoker with the given handler and options.
-func NewInvoker(handler message.MessageService, opts ...server.Option) server.Invoker {
+func NewInvoker(handler messagedemo.MessageService, opts ...server.Option) server.Invoker {
 	var options []server.Option
 
 	options = append(options, opts...)

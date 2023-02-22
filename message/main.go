@@ -2,7 +2,7 @@ package main
 
 import (
 	"douyin_backend_microService/message/dal/db"
-	message "douyin_backend_microService/message/kitex_gen/message/messageservice"
+	messagedemo "douyin_backend_microService/message/kitex_gen/messagedemo/messageservice"
 	"douyin_backend_microService/pkg/constants"
 	"github.com/cloudwego/kitex/pkg/rpcinfo"
 	"github.com/cloudwego/kitex/server"
@@ -19,12 +19,11 @@ func main() {
 		panic(err)
 	}
 
-	svr := message.NewServer(new(MessageServiceImpl),
+	svr := messagedemo.NewServer(new(MessageServiceImpl),
 		server.WithServiceAddr(addr),
 		server.WithRegistry(registry),
 		server.WithServerBasicInfo(&rpcinfo.EndpointBasicInfo{ServiceName: constants.MessageServiceName}))
 
-	//rpc.InitUser()
 	db.Init()
 
 	err = svr.Run()

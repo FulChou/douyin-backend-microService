@@ -2,12 +2,12 @@
 package messageservice
 
 import (
-	message "douyin_backend_microService/message/kitex_gen/message"
+	messagedemo "douyin_backend_microService/message/kitex_gen/messagedemo"
 	server "github.com/cloudwego/kitex/server"
 )
 
 // NewServer creates a server.Server with the given handler and options.
-func NewServer(handler message.MessageService, opts ...server.Option) server.Server {
+func NewServer(handler messagedemo.MessageService, opts ...server.Option) server.Server {
 	var options []server.Option
 
 	options = append(options, opts...)

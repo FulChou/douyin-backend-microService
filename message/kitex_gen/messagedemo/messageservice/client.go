@@ -4,15 +4,15 @@ package messageservice
 
 import (
 	"context"
-	message "douyin_backend_microService/message/kitex_gen/message"
+	messagedemo "douyin_backend_microService/message/kitex_gen/messagedemo"
 	client "github.com/cloudwego/kitex/client"
 	callopt "github.com/cloudwego/kitex/client/callopt"
 )
 
 // Client is designed to provide IDL-compatible methods with call-option parameter for kitex framework.
 type Client interface {
-	SendMessage(ctx context.Context, Req *message.MessageActionRequest, callOptions ...callopt.Option) (r *message.MessageActionRequestResponse, err error)
-	GetMessageChatRecord(ctx context.Context, Req *message.MessageChatRequest, callOptions ...callopt.Option) (r *message.MessageChatResponse, err error)
+	GetMessage(ctx context.Context, Req *messagedemo.MessageRequest, callOptions ...callopt.Option) (r *messagedemo.MessageResponse, err error)
+	MessageAction(ctx context.Context, Req *messagedemo.MessageActionRequest, callOptions ...callopt.Option) (r *messagedemo.MessageActionResponse, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -44,12 +44,12 @@ type kMessageServiceClient struct {
 	*kClient
 }
 
-func (p *kMessageServiceClient) SendMessage(ctx context.Context, Req *message.MessageActionRequest, callOptions ...callopt.Option) (r *message.MessageActionRequestResponse, err error) {
+func (p *kMessageServiceClient) GetMessage(ctx context.Context, Req *messagedemo.MessageRequest, callOptions ...callopt.Option) (r *messagedemo.MessageResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.SendMessage(ctx, Req)
+	return p.kClient.GetMessage(ctx, Req)
 }
 
-func (p *kMessageServiceClient) GetMessageChatRecord(ctx context.Context, Req *message.MessageChatRequest, callOptions ...callopt.Option) (r *message.MessageChatResponse, err error) {
+func (p *kMessageServiceClient) MessageAction(ctx context.Context, Req *messagedemo.MessageActionRequest, callOptions ...callopt.Option) (r *messagedemo.MessageActionResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.GetMessageChatRecord(ctx, Req)
+	return p.kClient.MessageAction(ctx, Req)
 }
